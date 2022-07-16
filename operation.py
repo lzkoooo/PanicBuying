@@ -3,44 +3,51 @@
 # @Author : 李兆堃
 # @File : operation.py
 # @Software : PyCharm
+import time
+
 import driver
 from findElement import Find
 from start import Start
 
 
 class Operate:
-    def __init__(self, browser, username, password):
+    def __init__(self, browser, num, website, loginUrl, username, password):
         self.browser = browser
+        self.num = num
+        self.website = website
+        self.loginUrl = loginUrl
         self.username = username
         self.password = password
         self.find = None
-        self.website = None
+        self.website = website
         pass
 
     def operate(self):
-        self.getWebSite()
         self.getFindElement()
-        st = Start(self.browser, self.website, self.username, self.password, self.find)
+        st = Start(self.browser, self.website, self.loginUrl, self.username, self.password, self.find)
         st.operate()    # 登录已完成
         self.Go()       # 抢购操作
-
-    def getWebSite(self):
-        website = input("请输入要访问的网站，淘宝or京东")
-        try:
-            if website == '京东':
-                self.website = 'JD'
-            elif website == '淘宝':
-                self.website = 'TB'
-            else:
-                raise ValueError
-        except ValueError as e:
-            print('输入错误！！')
-            self.getWebSite()
-            pass
 
     def getFindElement(self):
         self.find = Find(self.browser, self.website)
 
     def Go(self):
-        
+        self.find.enterShoppingCart().click()
+        time.sleep(3)
+        if self.num == '全选':
+            self.find.selectAll().click()
+        else:
+            # 清除选项
+            self.find.selectAll().click()
+            time.sleep(0.5)
+            self.find.selectAll().click()
+            time.sleep(0.5)
+            # 正式操作
+            elements = self.find.select(int(self.num))
+            for i in range(int(self.num)):
+                self.find.drag(elements[i])
+                time.sleep(0.7)
+                elements[i].click()
+        self.find.settleAccounts().click()
+        self.find.submit()
         pass

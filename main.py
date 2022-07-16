@@ -6,11 +6,19 @@
 
 from driver import Browser
 from operation import Operate
+from inputData import Input
 
 
 def main():
+    site, num, url = Input().getAll()
     chrome = Browser().getDriver()
-    op = Operate(chrome)
+    if site == 'JD':
+        username = '15127026818'
+        password = '15127026818lzk-'
+    else:
+        username = 'tb05090174'
+        password = '15127026818lzk-'
+    op = Operate(chrome, num, site, url, username, password)
     op.operate()
     chrome.quit()
     pass

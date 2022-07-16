@@ -18,6 +18,9 @@ class Find:
     #     else:
     #         return self.browser.find_element()
 
+    def switchJDLogin(self):
+        return self.browser.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[1]/div/div[3]/a')
+
     def userNameTextArea(self):
         if self.website == 'JD':
             return self.browser.find_element(By.XPATH, r'//*[@id="loginname"]')
@@ -45,20 +48,24 @@ class Find:
 
     def selectAll(self):
         if self.website == 'JD':
-            return self.browser.find_element(By.XPATH, r'//*[@id="cart-body"]/div[2]/div[50]/div/div[2]/div/div/div/div[2]/div[1]/div[1]')
+            self.browser.switch_to.window(self.browser.window_handles[1])
+            return self.browser.find_element(By.XPATH, r'//*[@name="select-all"]')
         else:
-            return self.browser.find_element(By.XPATH, r'//*[@id="J_SelectAll2"]')
+            return self.browser.find_element(By.XPATH, r'//label[@for="J_SelectAllCbx1"]')
         pass
 
     def select(self, number: int):
         if self.website == 'JD':
-            return [self.browser.find_element(By.XPATH, r'//*[@class="w"][0]/div[%d]/div[1]/div/div[1]/div[0]/div[0]/div/input' % i) for i in range(3, number +2)]
+            return self.browser.find_elements(By.XPATH, '//*[@name="checkItem"]')[: number]
         else:
-            return [self.browser.find_element(By.XPATH, r'//*[@id="J_OrderList"]/div[%d]//ul/li[1]//label' % i) for i in range(number - 1)]
+            return self.browser.find_elements(By.XPATH, r'//*[@class="order-content"]//*[@class="cart-checkbox"]/label')[: number]
         pass
 
     def settleAccounts(self):
-        return self.browser.find_element(By.XPATH, r'//[@class="btn-area"]')
+        if self.website == 'JD':
+            return self.browser.find_element(By.XPATH, r'//*[@class="common-submit-btn"]/a')
+        else:
+            return self.browser.find_element(By.CSS_SELECTOR, r'#J_SmallSubmit')
         pass
 
     def submit(self):
@@ -67,3 +74,8 @@ class Find:
             pass
         else:
             return self.browser.find_element(By.XPATH, r'//[@title="提交订单"]')
+
+    def drag(self, ele):
+        # js = "var q=document.getElementById('J_GoToTop').scrollTop=" + str(num * 100)
+        # self.browser.execute_script(js)
+        self.browser.execute_script("arguments[0].scrollIntoView();", ele)
