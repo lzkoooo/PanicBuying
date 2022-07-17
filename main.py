@@ -10,7 +10,7 @@ from inputData import Input
 
 
 def main():
-    site, num, url = Input().getAll()
+    site, num, url, panicTime = Input().getAll()
     chrome = Browser().getDriver()
     if site == 'JD':
         username = '15127026818'
@@ -18,7 +18,7 @@ def main():
     else:
         username = 'tb05090174'
         password = '15127026818lzk-'
-    op = Operate(chrome, num, site, url, username, password)
+    op = Operate(chrome, num, site, url, username, password, panicTime)
     op.operate()
     chrome.quit()
     pass

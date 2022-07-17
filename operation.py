@@ -7,11 +7,12 @@ import time
 
 import driver
 from findElement import Find
+from inputData import getBeijinTime
 from start import Start
 
 
 class Operate:
-    def __init__(self, browser, num, website, loginUrl, username, password):
+    def __init__(self, browser, num, website, loginUrl, username, password, panicTime):
         self.browser = browser
         self.num = num
         self.website = website
@@ -20,18 +21,20 @@ class Operate:
         self.password = password
         self.find = None
         self.website = website
+        self.panicTime = panicTime
         pass
 
     def operate(self):
         self.getFindElement()
         st = Start(self.browser, self.website, self.loginUrl, self.username, self.password, self.find)
-        st.operate()    # 登录已完成
-        self.Go()       # 抢购操作
+        st.operate()  # 登录已完成
+        self.prepare()  # 准备操作
+        self.panic()
 
     def getFindElement(self):
         self.find = Find(self.browser, self.website)
 
-    def Go(self):
+    def prepare(self):
         self.find.enterShoppingCart().click()
         time.sleep(3)
         if self.num == '全选':
@@ -48,6 +51,15 @@ class Operate:
                 self.find.drag(elements[i])
                 time.sleep(0.7)
                 elements[i].click()
-        self.find.settleAccounts().click()
-        self.find.submit()
+
         pass
+
+    def panic(self):
+        while True:
+            if getBeijinTime() >= self.panicTime:
+                break
+
+        while self.browser.current_url[8] == 'c':
+            self.find.settleAccounts().click()
+            time.sleep(0.3)
+        self.find.submit().click()

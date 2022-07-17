@@ -65,15 +65,15 @@ class Find:
         if self.website == 'JD':
             return self.browser.find_element(By.XPATH, r'//*[@class="common-submit-btn"]/a')
         else:
-            return self.browser.find_element(By.CSS_SELECTOR, r'#J_SmallSubmit')
+            return self.browser.find_element(By.CSS_SELECTOR, r'#J_Go')
         pass
 
     def submit(self):
         if self.website == 'JD':
-            return self.browser.find_element(By.XPATH, r'//[@type="submit"]')
+            return self.browser.find_element(By.XPATH, r'//*[@type="submit"]')
             pass
         else:
-            return self.browser.find_element(By.XPATH, r'//[@title="提交订单"]')
+            return self.browser.find_element(By.XPATH, r'//*[@title="提交订单"]')
 
     def drag(self, ele):
         # js = "var q=document.getElementById('J_GoToTop').scrollTop=" + str(num * 100)

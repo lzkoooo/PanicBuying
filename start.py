@@ -34,6 +34,6 @@ class Start:    # 必要的前置操作
         self.find.userNameTextArea().send_keys(self.userName)
         self.find.passWordTextArea().send_keys(self.passWord)
         self.find.clickLoginButton().click()
-        time.sleep(6)
+        time.sleep(2.5)
         pass    # 处理验证码
         pass
