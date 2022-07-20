@@ -63,7 +63,7 @@ class Find:
 
     def settleAccounts(self):
         if self.website == 'JD':
-            return self.browser.find_element(By.XPATH, r'//*[@class="common-submit-btn"]/a')
+            return self.browser.find_element(By.XPATH, r'//a[@class="common-submit-btn"]')
         else:
             return self.browser.find_element(By.CSS_SELECTOR, r'#J_Go')
         pass

@@ -55,9 +55,12 @@ class Operate:
         pass
 
     def panic(self):
+        beijingTime = None
         while True:
-            if getBeijinTime() >= self.panicTime:
+            beijingTime = getBeijinTime()
+            if beijingTime >= self.panicTime:
                 break
+            print(beijingTime)
 
         while self.browser.current_url[8] == 'c':
             self.find.settleAccounts().click()
