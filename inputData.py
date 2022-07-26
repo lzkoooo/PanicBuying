@@ -13,10 +13,12 @@ class Input:
     def __init__(self):
         self.website = None
         self.number = None
+        self.user = None
+        self.password = None
         pass
 
     def getAll(self):
-        return self.getWebSite(), self.getNumber(), self.getLoginUrl(), self.getPanicTime()
+        return self.getWebSite(), self.getNumber(), self.getLoginUrl(), self.getPanicTime(), self.getLoginUserPassword()
 
     def getWebSite(self):
         website = input("\n请输入要访问的网站，淘宝or京东")
@@ -48,6 +50,11 @@ class Input:
             return 'https://passport.jd.com/uc/login'
         else:
             return 'https://login.taobao.com/member/login.jhtml'
+
+    def getLoginUserPassword(self):  # 获取用户名和密码
+        self.user = input("\n请输入账号")
+        self.password = input("\n请输入密码")
+        return self.user, self.password
 
     def getPanicTime(self):
         return input("\n请输入要抢购时间，时间格式：时:分:秒")
